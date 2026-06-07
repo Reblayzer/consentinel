@@ -26,11 +26,11 @@ guarantees verifiable, by exposing governance as clean APIs and interfaces.
 - [x] Approval workflow (pending → approved/rejected → completed)
 - [x] Immutable audit trail of every governance action
 
-### Sprint 3 — Infrastructure as code
-- [ ] `docker-compose`: Postgres + LocalStack + API
-- [ ] Terraform provisioning S3 (evidence store) + SQS (request queue) on LocalStack
-- [ ] Alembic migrations replacing dev-time table creation
-- [ ] GitHub Actions CI: ruff + pytest on every push
+### Sprint 3 — Infrastructure as code ✅
+- [x] `docker-compose`: Postgres + LocalStack + API
+- [x] Terraform provisioning S3 (evidence store) + SQS (request queue) on LocalStack
+- [x] Alembic migrations replacing dev-time table creation (run automatically on boot)
+- [x] GitHub Actions CI: ruff + pytest + terraform validate
 
 ### Sprint 4 — TypeScript frontend
 - [ ] Next.js + TypeScript dashboard

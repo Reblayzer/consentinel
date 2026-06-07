@@ -10,8 +10,9 @@ effort of doing the right thing with personal data, while strengthening the guar
 right thing is being done.
 
 > **Status:** actively built in SCRUM-style sprints — see [the backlog](docs/BACKLOG.md).
-> Sprints 1–2 (backend foundation, automatic PII classification, and the full
-> compliance workflow) are complete and tested.
+> Sprints 1–3 are complete and verified: backend foundation, automatic PII
+> classification, the full compliance workflow, and the containerised stack
+> (Postgres + LocalStack) provisioned with Terraform.
 
 ---
 
@@ -44,8 +45,8 @@ Consentinel turns those manual steps into APIs and interfaces:
                  └────────────┬─────────────┘
                               │ SQLAlchemy
                  ┌────────────▼─────────────┐
-                 │ SQLite (dev) / Postgres   │   provisioned via Terraform
-                 └───────────────────────────┘   on LocalStack (Sprint 3)
+                 │ SQLite (dev) / Postgres   │   S3 + SQS provisioned via
+                 └───────────────────────────┘   Terraform on LocalStack
 ```
 
 ## Tech stack
@@ -124,6 +125,29 @@ real auth can replace it without touching the rest of the app. Roles:
 | `data_steward` | Approve / reject / complete requests, read the audit trail |
 | `data_subject` | File right-to-be-forgotten / access requests |
 | `admin` | Everything |
+
+## Run the full stack (Docker + Terraform)
+
+The production-like stack runs the API against PostgreSQL, with
+[LocalStack](https://localstack.cloud/) standing in for AWS:
+
+```bash
+# build & start Postgres + LocalStack + API
+docker compose up -d --build      # API on http://localhost:8080
+
+# provision the S3 evidence bucket + SQS request queue on LocalStack
+cd infra && terraform init && terraform apply -auto-approve
+```
+
+On boot the API applies its **Alembic migrations** automatically, so the Postgres
+schema always matches the deployed code. (Host ports: API `8080`, Postgres `5433`,
+LocalStack `4566`.)
+
+## Continuous integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every push and pull
+request: `ruff` + `pytest` for the backend, and `terraform fmt -check` + `validate`
+for the infrastructure.
 
 ## Configuration
 

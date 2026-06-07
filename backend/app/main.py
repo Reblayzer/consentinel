@@ -21,9 +21,11 @@ def create_app() -> FastAPI:
         ),
     )
 
-    # Convenient for local dev: create tables on boot. The containerised stack
-    # uses Alembic migrations instead (introduced in the infrastructure sprint).
-    Base.metadata.create_all(bind=engine)
+    # Convenient for local dev on SQLite: create tables on boot. The Postgres
+    # (containerised) deployment owns its schema through Alembic migrations, so
+    # we skip create_all there to keep a single source of schema truth.
+    if settings.database_url.startswith("sqlite"):
+        Base.metadata.create_all(bind=engine)
 
     app.include_router(datasets.router)
     app.include_router(agreements.router)

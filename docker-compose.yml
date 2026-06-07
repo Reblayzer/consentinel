@@ -1,0 +1,43 @@
+# Local production-like stack: Postgres for data, LocalStack for AWS services
+# (S3 + SQS, provisioned by Terraform in ./infra), and the API itself.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: consentinel
+      POSTGRES_PASSWORD: consentinel
+      POSTGRES_DB: consentinel
+    ports:
+      # Host 5433 → container 5432 (5432 is often taken by a local Postgres).
+      # The API reaches the DB over the compose network, so this is only for
+      # connecting from the host.
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U consentinel"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  localstack:
+    image: localstack/localstack:3
+    environment:
+      SERVICES: s3,sqs
+    ports:
+      - "4566:4566"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:4566/_localstack/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./backend
+    environment:
+      CONSENTINEL_DATABASE_URL: postgresql+psycopg://consentinel:consentinel@db:5432/consentinel
+      CONSENTINEL_ENVIRONMENT: docker
+    ports:
+      # Host 8080 → container 8000 (8000 is a common local dev port).
+      - "8080:8000"
+    depends_on:
+      db:
+        condition: service_healthy
