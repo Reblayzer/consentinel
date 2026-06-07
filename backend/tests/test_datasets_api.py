@@ -1,5 +1,7 @@
 """API tests for dataset registration and lookup."""
 
+from tests.roles import OWNER
+
 
 def test_register_dataset_classifies_pii(client):
     payload = {
@@ -12,7 +14,7 @@ def test_register_dataset_classifies_pii(client):
             {"name": "order_total", "sample_values": ["12.50", "9.99"]},
         ],
     }
-    resp = client.post("/datasets", json=payload)
+    resp = client.post("/datasets", json=payload, headers=OWNER)
     assert resp.status_code == 201
 
     body = resp.json()
@@ -27,6 +29,7 @@ def test_get_and_list_datasets(client):
     client.post(
         "/datasets",
         json={"name": "ds1", "owner": "o", "source_system": "s", "fields": []},
+        headers=OWNER,
     )
 
     list_resp = client.get("/datasets")

@@ -11,7 +11,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.schemas import DatasetCreate, DatasetRead
+from app.core.security import Principal, require_roles
 from app.db.session import get_db
+from app.domain.enums import Role
 from app.domain.models import DataField, Dataset
 from app.pii.classifier import classify_field
 
@@ -19,7 +21,11 @@ router = APIRouter(prefix="/datasets", tags=["datasets"])
 
 
 @router.post("", response_model=DatasetRead, status_code=status.HTTP_201_CREATED)
-def register_dataset(payload: DatasetCreate, db: Session = Depends(get_db)) -> Dataset:
+def register_dataset(
+    payload: DatasetCreate,
+    db: Session = Depends(get_db),
+    _: Principal = Depends(require_roles(Role.DATA_OWNER)),
+) -> Dataset:
     """Register a dataset manifest and auto-classify each field for PII."""
     dataset = Dataset(
         name=payload.name,

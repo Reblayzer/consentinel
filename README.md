@@ -10,7 +10,8 @@ effort of doing the right thing with personal data, while strengthening the guar
 right thing is being done.
 
 > **Status:** actively built in SCRUM-style sprints — see [the backlog](docs/BACKLOG.md).
-> Sprint 1 (backend foundation + automatic PII classification) is complete and tested.
+> Sprints 1–2 (backend foundation, automatic PII classification, and the full
+> compliance workflow) are complete and tested.
 
 ---
 
@@ -24,9 +25,9 @@ Consentinel turns those manual steps into APIs and interfaces:
 | --- | --- |
 | **Dataset manifests** | A data owner registers a dataset and its columns. |
 | **Automatic PII classification** | Each column is scanned and tagged (email, phone, national ID, …) with a confidence score and a human-readable rationale. |
-| **Usage agreements** | Each dataset records its GDPR Article 6 lawful basis and retention. *(Sprint 2)* |
-| **Governance roles** | Role-based access for owners, stewards, and data subjects. *(Sprint 2)* |
-| **Right-to-be-forgotten / access requests** | Data subjects file requests that flow through an approval workflow with a full audit trail. *(Sprint 2)* |
+| **Usage agreements** | Each dataset records its GDPR Article 6 lawful basis and retention. |
+| **Governance roles** | Role-based access for owners, stewards, and data subjects. |
+| **Right-to-be-forgotten / access requests** | Data subjects file requests that flow through an approval workflow with a full audit trail. |
 
 ## Architecture
 
@@ -73,9 +74,12 @@ uvicorn app.main:app --reload
 
 ### Try it
 
+Register a dataset (requires the `data_owner` role — see *Roles & access* below):
+
 ```bash
 curl -X POST http://localhost:8000/datasets \
   -H 'content-type: application/json' \
+  -H 'X-Actor: alice' -H 'X-Role: data_owner' \
   -d '{
         "name": "crm.customers",
         "owner": "marketing-data-team",
@@ -90,6 +94,36 @@ curl -X POST http://localhost:8000/datasets \
 
 Consentinel responds with the dataset, each column tagged with its PII category, a confidence
 score, and the reasoning behind the decision.
+
+A data subject can then ask to be forgotten, and a steward works the request:
+
+```bash
+# data subject files a right-to-be-forgotten request
+curl -X POST http://localhost:8000/requests \
+  -H 'content-type: application/json' \
+  -H 'X-Actor: jens' -H 'X-Role: data_subject' \
+  -d '{"request_type": "erasure", "subject_ref": "jens@lego.dk", "reason": "please delete my data"}'
+
+# steward approves, then completes it (id from the response above)
+curl -X POST http://localhost:8000/requests/1/approve \
+  -H 'content-type: application/json' \
+  -H 'X-Actor: sam' -H 'X-Role: data_steward' -d '{"note": "identity verified"}'
+```
+
+Every action lands in the append-only audit trail at `GET /audit`.
+
+### Roles & access
+
+Identity is supplied per request via `X-Actor` and `X-Role` headers — a deliberately small
+stand-in for OIDC/JWT, isolated in [`app/core/security.py`](backend/app/core/security.py) so
+real auth can replace it without touching the rest of the app. Roles:
+
+| Role | Can |
+| --- | --- |
+| `data_owner` | Register datasets, attach usage agreements |
+| `data_steward` | Approve / reject / complete requests, read the audit trail |
+| `data_subject` | File right-to-be-forgotten / access requests |
+| `admin` | Everything |
 
 ## Configuration
 

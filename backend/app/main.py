@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 
-from app.api import datasets
+from app.api import agreements, audit, datasets, requests
 from app.core.config import get_settings
 from app.db.base import Base
 from app.db.session import engine
@@ -26,6 +26,9 @@ def create_app() -> FastAPI:
     Base.metadata.create_all(bind=engine)
 
     app.include_router(datasets.router)
+    app.include_router(agreements.router)
+    app.include_router(requests.router)
+    app.include_router(audit.router)
 
     @app.get("/health", tags=["meta"])
     def health() -> dict[str, str]:

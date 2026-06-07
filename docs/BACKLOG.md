@@ -19,12 +19,12 @@ guarantees verifiable, by exposing governance as clean APIs and interfaces.
 - [x] Dataset registration endpoint that auto-classifies every column
 - [x] pytest suite (classifier units + API integration) and ruff lint
 
-### Sprint 2 — Compliance workflows
-- [ ] Usage agreements: lawful basis (GDPR Art. 6) + retention per dataset
-- [ ] Governance roles & role-based access (owner / steward / subject / admin)
-- [ ] Compliance requests: right-to-be-forgotten (Art. 17) and access (Art. 15)
-- [ ] Approval workflow (pending → approved/rejected → completed)
-- [ ] Immutable audit trail of every governance action
+### Sprint 2 — Compliance workflows ✅
+- [x] Usage agreements: lawful basis (GDPR Art. 6) + retention per dataset
+- [x] Governance roles & role-based access (owner / steward / subject / admin)
+- [x] Compliance requests: right-to-be-forgotten (Art. 17) and access (Art. 15)
+- [x] Approval workflow (pending → approved/rejected → completed)
+- [x] Immutable audit trail of every governance action
 
 ### Sprint 3 — Infrastructure as code
 - [ ] `docker-compose`: Postgres + LocalStack + API
