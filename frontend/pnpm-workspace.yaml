@@ -1,0 +1,5 @@
+# Approve sharp's native build script (Next.js uses it for image optimization).
+# Without an explicit decision, pnpm 11 leaves it unbuilt and its
+# "verify deps before run" pre-check aborts `pnpm run` scripts.
+allowBuilds:
+  sharp: true

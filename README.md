@@ -9,10 +9,11 @@ It is built around the everyday reality of a data-platform compliance team: redu
 effort of doing the right thing with personal data, while strengthening the guarantees that the
 right thing is being done.
 
-> **Status:** actively built in SCRUM-style sprints — see [the backlog](docs/BACKLOG.md).
-> Sprints 1–3 are complete and verified: backend foundation, automatic PII
-> classification, the full compliance workflow, and the containerised stack
-> (Postgres + LocalStack) provisioned with Terraform.
+> **Status:** built in SCRUM-style sprints — see [the backlog](docs/BACKLOG.md).
+> Sprints 1–4 are complete and verified: backend foundation, automatic PII
+> classification, the full compliance workflow, the containerised stack
+> (Postgres + LocalStack) provisioned with Terraform, and a Next.js + TypeScript
+> dashboard.
 
 ---
 
@@ -34,7 +35,7 @@ Consentinel turns those manual steps into APIs and interfaces:
 
 ```
                  ┌──────────────────────────┐
-  data owner ──► │  Next.js + TypeScript UI  │  (Sprint 4)
+  data owner ──► │  Next.js + TypeScript UI  │  dashboard
   data subject   └────────────┬─────────────┘
                               │ HTTP / JSON
                  ┌────────────▼─────────────┐
@@ -42,7 +43,7 @@ Consentinel turns those manual steps into APIs and interfaces:
                  │  ┌─────────────────────┐  │
                  │  │  PII classifier     │  │   data-engineering core
                  │  └─────────────────────┘  │
-                 └────────────┬─────────────┘
+                 └────────────┬─────────────┘   (UI proxies /api/* here)
                               │ SQLAlchemy
                  ┌────────────▼─────────────┐
                  │ SQLite (dev) / Postgres   │   S3 + SQS provisioned via
@@ -56,7 +57,7 @@ Consentinel turns those manual steps into APIs and interfaces:
   name hints, including Danish field names and the CPR national-ID format)
 - **Database:** SQLite for zero-setup local dev; PostgreSQL for the containerised stack
 - **Infrastructure as code:** Terraform → LocalStack + Docker *(Sprint 3)*
-- **Frontend:** Next.js + TypeScript *(Sprint 4)*
+- **Frontend:** Next.js (App Router) + TypeScript + Tailwind CSS v4, with a typed API client
 - **Quality:** pytest · ruff · GitHub Actions CI
 
 ## Quickstart (backend)
@@ -143,11 +144,37 @@ On boot the API applies its **Alembic migrations** automatically, so the Postgre
 schema always matches the deployed code. (Host ports: API `8080`, Postgres `5433`,
 LocalStack `4566`.)
 
+## Dashboard (Next.js + TypeScript)
+
+A dashboard for data citizens lives in [`frontend/`](frontend). Run the backend
+(`uvicorn app.main:app` on :8000), then:
+
+```bash
+cd frontend
+pnpm install
+pnpm dev            # http://localhost:3000
+```
+
+The UI proxies `/api/*` to the backend (set via `CONSENTINEL_API_URL`, default
+`http://localhost:8000`), so there's no CORS to configure. A **role switcher** in
+the header lets you act as a data owner, steward, or subject — exercising the
+RBAC rules from the browser. Screens:
+
+- **Datasets** — every registered dataset with its columns' PII badges and the
+  classifier's rationale.
+- **Register dataset** — submit a manifest and watch each column get classified.
+- **Requests** — file right-to-be-forgotten / access requests and, as a steward,
+  approve / reject / complete them.
+
+```bash
+cd frontend && pnpm test        # Vitest unit tests (API client + PII helpers)
+```
+
 ## Continuous integration
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every push and pull
-request: `ruff` + `pytest` for the backend, and `terraform fmt -check` + `validate`
-for the infrastructure.
+request: `ruff` + `pytest` for the backend, `pnpm test` + `pnpm build` for the
+frontend, and `terraform fmt -check` + `validate` for the infrastructure.
 
 ## Configuration
 

@@ -32,11 +32,12 @@ guarantees verifiable, by exposing governance as clean APIs and interfaces.
 - [x] Alembic migrations replacing dev-time table creation (run automatically on boot)
 - [x] GitHub Actions CI: ruff + pytest + terraform validate
 
-### Sprint 4 — TypeScript frontend
-- [ ] Next.js + TypeScript dashboard
-- [ ] Register datasets and visualise PII findings
-- [ ] File and review right-to-be-forgotten / access requests
-- [ ] Typed API client + Vitest component tests
+### Sprint 4 — TypeScript frontend ✅
+- [x] Next.js (App Router) + TypeScript + Tailwind v4 dashboard
+- [x] Register datasets and visualise PII findings
+- [x] File and review right-to-be-forgotten / access requests
+- [x] Role switcher exercising RBAC from the browser
+- [x] Typed API client (proxied via Next rewrites) + Vitest unit tests
 
 ### Sprint 5 — Polish & delivery
 - [ ] Architecture diagram + screenshots / demo GIF
