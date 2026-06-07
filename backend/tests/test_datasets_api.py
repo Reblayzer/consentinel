@@ -9,7 +9,7 @@ def test_register_dataset_classifies_pii(client):
         "owner": "marketing-data-team",
         "source_system": "snowflake",
         "fields": [
-            {"name": "email", "sample_values": ["a@lego.dk", "b@lego.dk"]},
+            {"name": "email", "sample_values": ["a@example.dk", "b@example.dk"]},
             {"name": "cpr", "sample_values": ["010203-1234"]},
             {"name": "order_total", "sample_values": ["12.50", "9.99"]},
         ],

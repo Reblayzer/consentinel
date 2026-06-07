@@ -3,7 +3,7 @@
 from tests.roles import STEWARD, SUBJECT
 
 
-def _file_erasure(client, subject_ref="jens@lego.dk") -> int:
+def _file_erasure(client, subject_ref="jens@example.dk") -> int:
     resp = client.post(
         "/requests",
         json={"request_type": "erasure", "subject_ref": subject_ref, "reason": "delete me"},
@@ -55,8 +55,8 @@ def test_subject_cannot_approve_own_request(client):
 
 
 def test_filter_requests_by_status(client):
-    pending_id = _file_erasure(client, "a@lego.dk")
-    resolved_id = _file_erasure(client, "b@lego.dk")
+    pending_id = _file_erasure(client, "a@example.dk")
+    resolved_id = _file_erasure(client, "b@example.dk")
     client.post(f"/requests/{resolved_id}/reject", json={}, headers=STEWARD)
 
     pending = client.get("/requests", params={"status": "pending"})

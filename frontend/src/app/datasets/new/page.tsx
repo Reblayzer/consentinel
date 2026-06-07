@@ -15,7 +15,7 @@ interface FieldRow {
 }
 
 const STARTER_ROWS: FieldRow[] = [
-  { name: "email", samples: "a@lego.dk, b@lego.dk" },
+  { name: "email", samples: "a@example.dk, b@example.dk" },
   { name: "cpr", samples: "010203-1234" },
   { name: "order_total", samples: "12.50, 9.99" },
 ];

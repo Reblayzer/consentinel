@@ -6,7 +6,7 @@ from tests.roles import STEWARD, SUBJECT
 def test_audit_trail_records_request_actions(client):
     filed = client.post(
         "/requests",
-        json={"request_type": "erasure", "subject_ref": "a@lego.dk"},
+        json={"request_type": "erasure", "subject_ref": "a@example.dk"},
         headers=SUBJECT,
     )
     request_id = filed.json()["id"]

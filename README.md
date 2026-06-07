@@ -87,7 +87,7 @@ curl -X POST http://localhost:8000/datasets \
         "owner": "marketing-data-team",
         "source_system": "snowflake",
         "fields": [
-          {"name": "email",       "sample_values": ["a@lego.dk", "b@lego.dk"]},
+          {"name": "email",       "sample_values": ["a@example.dk", "b@example.dk"]},
           {"name": "cpr",         "sample_values": ["010203-1234"]},
           {"name": "order_total", "sample_values": ["12.50", "9.99"]}
         ]
@@ -104,7 +104,7 @@ A data subject can then ask to be forgotten, and a steward works the request:
 curl -X POST http://localhost:8000/requests \
   -H 'content-type: application/json' \
   -H 'X-Actor: jens' -H 'X-Role: data_subject' \
-  -d '{"request_type": "erasure", "subject_ref": "jens@lego.dk", "reason": "please delete my data"}'
+  -d '{"request_type": "erasure", "subject_ref": "jens@example.dk", "reason": "please delete my data"}'
 
 # steward approves, then completes it (id from the response above)
 curl -X POST http://localhost:8000/requests/1/approve \

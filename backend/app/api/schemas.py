@@ -13,7 +13,9 @@ class FieldSample(BaseModel):
     """A source column plus a few example values, used to classify it."""
 
     name: str = Field(examples=["email"])
-    sample_values: list[str] = Field(default_factory=list, examples=[["a@lego.dk", "b@lego.dk"]])
+    sample_values: list[str] = Field(
+        default_factory=list, examples=[["a@example.dk", "b@example.dk"]]
+    )
 
 
 class DatasetCreate(BaseModel):
@@ -74,7 +76,7 @@ class UsageAgreementRead(BaseModel):
 
 class ComplianceRequestCreate(BaseModel):
     request_type: RequestType = Field(examples=[RequestType.ERASURE])
-    subject_ref: str = Field(examples=["jens@lego.dk"])
+    subject_ref: str = Field(examples=["jens@example.dk"])
     dataset_id: int | None = None
     reason: str = ""
 

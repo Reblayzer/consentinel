@@ -7,8 +7,8 @@ are combined into a confidence score:
 * **value signal** — the fraction of sampled values matching a category's
   regex / validator (e.g. a valid email address, or a Luhn-valid card number);
 * **name signal** — whether the column name contains a known keyword. Keywords
-  are multilingual (English + Danish) because the LEGO Group is based in
-  Denmark, so source columns are often named ``fornavn``, ``adresse``, ``cpr``…
+  are multilingual (English + Danish), since real-world Danish source systems
+  often name columns ``fornavn``, ``adresse``, ``cpr``…
 
 The module is deliberately dependency-free and deterministic, so it is trivial
 to unit-test and to run as a batch step over many datasets.

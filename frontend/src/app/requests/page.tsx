@@ -16,7 +16,7 @@ export default function RequestsPage() {
   const { data: requests, error, loading, reload } = useAsync(() => api.listRequests());
 
   const [requestType, setRequestType] = useState<RequestType>("erasure");
-  const [subjectRef, setSubjectRef] = useState("jens@lego.dk");
+  const [subjectRef, setSubjectRef] = useState("jens@example.dk");
   const [reason, setReason] = useState("");
   const [actionError, setActionError] = useState<string | null>(null);
 

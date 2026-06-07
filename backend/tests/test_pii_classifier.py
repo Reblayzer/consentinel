@@ -5,7 +5,7 @@ from app.pii.classifier import classify_field
 
 
 def test_detects_email_by_values_and_name():
-    result = classify_field("email", ["alice@example.com", "bob@lego.dk"])
+    result = classify_field("email", ["alice@example.com", "bob@example.dk"])
     assert result.category == PIICategory.EMAIL
     assert result.is_personal_data
     assert result.confidence >= 0.9  # value + name signals agree
