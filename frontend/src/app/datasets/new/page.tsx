@@ -149,7 +149,7 @@ export default function NewDatasetPage() {
       {result && (
         <Card className="space-y-3">
           <h2 className="font-medium">
-            Registered <span className="font-mono">{result.name}</span> — classification
+            Registered <span className="font-mono">{result.name}</span>: classification
           </h2>
           <ul className="space-y-1.5">
             {result.fields.map((field) => (

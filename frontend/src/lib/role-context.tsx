@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import type { Principal, Role } from "./types";
 
-// Demo principals — one per role. Real auth would derive these from a token;
+// Demo principals, one per role. Real auth would derive these from a token;
 // here a switcher lets a reviewer experience the app from each perspective.
 export const PRINCIPALS: Record<Role, Principal> = {
   data_owner: { actor: "alice", role: "data_owner" },

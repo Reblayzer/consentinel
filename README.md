@@ -9,8 +9,8 @@ It is built around the everyday reality of a data-platform compliance team: redu
 effort of doing the right thing with personal data, while strengthening the guarantees that the
 right thing is being done.
 
-> **Status:** built in SCRUM-style sprints — see [the backlog](docs/BACKLOG.md).
-> Sprints 1–4 are complete and verified: backend foundation, automatic PII
+> **Status:** built in SCRUM-style sprints. See [the backlog](docs/BACKLOG.md).
+> Sprints 1-4 are complete and verified: backend foundation, automatic PII
 > classification, the full compliance workflow, the containerised stack
 > (Postgres + LocalStack) provisioned with Terraform, and a Next.js + TypeScript
 > dashboard.
@@ -76,7 +76,7 @@ uvicorn app.main:app --reload
 
 ### Try it
 
-Register a dataset (requires the `data_owner` role — see *Roles & access* below):
+Register a dataset (requires the `data_owner` role; see *Roles & access* below):
 
 ```bash
 curl -X POST http://localhost:8000/datasets \
@@ -116,7 +116,7 @@ Every action lands in the append-only audit trail at `GET /audit`.
 
 ### Roles & access
 
-Identity is supplied per request via `X-Actor` and `X-Role` headers — a deliberately small
+Identity is supplied per request via `X-Actor` and `X-Role` headers, a deliberately small
 stand-in for OIDC/JWT, isolated in [`app/core/security.py`](backend/app/core/security.py) so
 real auth can replace it without touching the rest of the app. Roles:
 
@@ -157,13 +157,13 @@ pnpm dev            # http://localhost:3000
 
 The UI proxies `/api/*` to the backend (set via `CONSENTINEL_API_URL`, default
 `http://localhost:8000`), so there's no CORS to configure. A **role switcher** in
-the header lets you act as a data owner, steward, or subject — exercising the
+the header lets you act as a data owner, steward, or subject, exercising the
 RBAC rules from the browser. Screens:
 
-- **Datasets** — every registered dataset with its columns' PII badges and the
+- **Datasets**: every registered dataset with its columns' PII badges and the
   classifier's rationale.
-- **Register dataset** — submit a manifest and watch each column get classified.
-- **Requests** — file right-to-be-forgotten / access requests and, as a steward,
+- **Register dataset**: submit a manifest and watch each column get classified.
+- **Requests**: file right-to-be-forgotten / access requests and, as a steward,
   approve / reject / complete them.
 
 ```bash
@@ -182,7 +182,7 @@ All settings are environment variables with the `CONSENTINEL_` prefix (see
 [`app/core/config.py`](backend/app/core/config.py)). The most important one:
 
 ```bash
-# default — zero-setup local dev
+# default: zero-setup local dev
 CONSENTINEL_DATABASE_URL=sqlite:///./consentinel.db
 # containerised stack
 CONSENTINEL_DATABASE_URL=postgresql+psycopg://consentinel:consentinel@db:5432/consentinel

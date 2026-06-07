@@ -1,4 +1,4 @@
-"""Pydantic request/response models — the API's JSON contract."""
+"""Pydantic request/response models: the API's JSON contract."""
 
 from __future__ import annotations
 

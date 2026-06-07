@@ -1,4 +1,4 @@
-"""Usage-agreement endpoints — the lawful basis a dataset relies on.
+"""Usage-agreement endpoints: the lawful basis a dataset relies on.
 
 A usage agreement records *why* a dataset may process personal data (its GDPR
 Article 6 lawful basis) and how long it is retained. Only data owners (or admins)

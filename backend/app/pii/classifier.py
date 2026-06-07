@@ -1,12 +1,12 @@
-"""Heuristic PII classifier — the data-engineering core of Consentinel.
+"""Heuristic PII classifier: the data-engineering core of Consentinel.
 
 Given a column name and a sample of its values, infer whether the column holds
 personal data and which GDPR-relevant category it belongs to. Two weak signals
 are combined into a confidence score:
 
-* **value signal** — the fraction of sampled values matching a category's
+* **value signal**: the fraction of sampled values matching a category's
   regex / validator (e.g. a valid email address, or a Luhn-valid card number);
-* **name signal** — whether the column name contains a known keyword. Keywords
+* **name signal**: whether the column name contains a known keyword. Keywords
   are multilingual (English + Danish), since real-world Danish source systems
   often name columns ``fornavn``, ``adresse``, ``cpr``…
 
@@ -85,7 +85,7 @@ _VALUE_PRIORITY: tuple[PIICategory, ...] = (
 @dataclass(frozen=True)
 class Classification:
     category: PIICategory
-    confidence: float  # 0.0 – 1.0
+    confidence: float  # 0.0 to 1.0
     rationale: str
 
     @property
@@ -139,7 +139,7 @@ def classify_field(column_name: str, sample_values: list[str] | None = None) -> 
             f"column name '{column_name}' matches a known {name_hint.value} keyword",
         )
 
-    # A weak value signal with no name support — flag it, but low-confidence.
+    # A weak value signal with no name support, flagged at low confidence.
     if best_score > 0.0:
         return Classification(
             best_category,

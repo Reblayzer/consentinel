@@ -28,6 +28,6 @@ aws --endpoint-url http://localhost:4566 sqs list-queues
 
 ## Targeting real AWS
 
-The resources are plain AWS resources — to deploy to a real account, remove the
+The resources are plain AWS resources. To deploy to a real account, remove the
 `endpoints {}` block and dummy credentials in `main.tf` and supply real
 credentials via the standard AWS provider mechanisms.

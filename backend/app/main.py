@@ -16,7 +16,7 @@ def create_app() -> FastAPI:
         title=settings.app_name,
         version="0.1.0",
         description=(
-            "Data-governance & compliance portal — dataset manifests, automatic PII "
+            "Data-governance & compliance portal: dataset manifests, automatic PII "
             "classification, and right-to-be-forgotten workflows."
         ),
     )

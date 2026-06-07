@@ -1,4 +1,4 @@
-"""Compliance-request endpoints — right-to-be-forgotten and access requests.
+"""Compliance-request endpoints: right-to-be-forgotten and access requests.
 
 Lifecycle:
 

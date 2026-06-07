@@ -1,7 +1,7 @@
 """Application settings, loaded from environment variables (12-factor style).
 
 Defaults target zero-setup local development: SQLite, no external services.
-Override via ``CONSENTINEL_*`` env vars (or a ``.env`` file) — for example the
+Override via ``CONSENTINEL_*`` env vars (or a ``.env`` file). For example, the
 Docker stack sets ``CONSENTINEL_DATABASE_URL`` to a Postgres DSN.
 """
 

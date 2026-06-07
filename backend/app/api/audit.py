@@ -1,7 +1,7 @@
 """Audit-trail endpoint.
 
 The audit log is sensitive (it lists who did what to whose data), so reading it
-is restricted to data stewards and admins. It is append-only — there is
+is restricted to data stewards and admins. It is append-only, with
 deliberately no endpoint to edit or delete an event.
 """
 

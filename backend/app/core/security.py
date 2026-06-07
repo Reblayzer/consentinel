@@ -2,7 +2,7 @@
 
 The caller's identity and governance role are read from request headers
 (``X-Actor`` / ``X-Role``). This is a deliberately small stand-in for real
-authentication — a production deployment would derive the principal from an
+authentication. A production deployment would derive the principal from an
 OIDC / JWT token issued by the identity provider. Isolating it in one dependency
 means swapping in real auth later touches only this module.
 """

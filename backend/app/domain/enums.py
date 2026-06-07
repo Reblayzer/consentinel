@@ -45,8 +45,8 @@ class Role(StrEnum):
 class RequestType(StrEnum):
     """Type of data-subject request."""
 
-    ACCESS = "access"  # GDPR Art. 15 — right of access
-    ERASURE = "erasure"  # GDPR Art. 17 — right to be forgotten
+    ACCESS = "access"  # GDPR Art. 15: right of access
+    ERASURE = "erasure"  # GDPR Art. 17: right to be forgotten
 
 
 class RequestStatus(StrEnum):

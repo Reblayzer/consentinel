@@ -1,1 +1,1 @@
-"""Consentinel backend — data compliance & governance API."""
+"""Consentinel backend: data compliance & governance API."""
